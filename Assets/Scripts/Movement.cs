@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour {
     public float speed = 1;
     public float force = 10; 
     public Rigidbody2D rb;
+    public Animator animator;
 
     public bool grounded = false;
     
@@ -21,17 +22,23 @@ public class Movement : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-	    if(Input.GetButton("Horizontal")) {
-            rb.velocity = new Vector2(Input.GetAxis("Horizontal")*speed*Time.fixedDeltaTime, rb.velocity.y);
+	    if (Input.GetButton("Horizontal"))
+	    {
+	        rb.velocity = new Vector2(Input.GetAxis("Horizontal")*speed*Time.fixedDeltaTime, rb.velocity.y);
+	        //animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
+	        if (Input.GetAxis("Horizontal") >= 0)
+	        {
+	            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
+	        }
+	        else
+	        {
+	            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
+	        }
+	    }
 
-            if(Input.GetAxis("Horizontal") >= 0) {
-                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
-            } else {
-                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
-            }
-        }
+        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
 
-        if(Input.GetButton("Jump") && grounded) {
+        if (Input.GetButton("Jump") && grounded) {
             rb.AddForce(new Vector2(0, Input.GetAxis("Jump")*force*Time.fixedDeltaTime));
         }
 	}

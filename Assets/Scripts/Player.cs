@@ -8,6 +8,8 @@ public class Player : MonoBehaviour {
     public GameObject bullet;
     public Text scoreText;
     public int score = 0;
+   
+
 
 	// Use this for initialization
 	void Start () {
